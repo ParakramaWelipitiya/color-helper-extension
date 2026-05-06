@@ -1,15 +1,38 @@
 import * as assert from 'assert';
-
-// You can import and use all API from the 'vscode' module
-// as well as import your extension to test it
 import * as vscode from 'vscode';
-// import * as myExtension from '../../extension';
 
-suite('Extension Test Suite', () => {
-	vscode.window.showInformationMessage('Start all tests.');
+suite('Color Provider Tests', () => {
 
-	test('Sample test', () => {
-		assert.strictEqual(-1, [1, 2, 3].indexOf(5));
-		assert.strictEqual(-1, [1, 2, 3].indexOf(0));
-	});
+    test('Detect RGB color', async () => {
+
+        const doc = await vscode.workspace.openTextDocument({
+            content: '(255, 0, 0)',
+            language: 'python'
+        });
+
+        const colors = await vscode.commands.executeCommand<vscode.ColorInformation[]>(
+            'vscode.executeDocumentColorProvider',
+            doc.uri
+        );
+
+        assert.ok(colors);
+        assert.strictEqual(colors!.length, 1);
+    });
+
+    test('Detect HEX color', async () => {
+
+        const doc = await vscode.workspace.openTextDocument({
+            content: '#ff0000',
+            language: 'python'
+        });
+
+        const colors = await vscode.commands.executeCommand<vscode.ColorInformation[]>(
+            'vscode.executeDocumentColorProvider',
+            doc.uri
+        );
+
+        assert.ok(colors);
+        assert.strictEqual(colors!.length, 1);
+    });
+
 });
