@@ -1,13 +1,14 @@
 {
   "name": "python-color-helper",
-  "displayName": "python-color-helper",
+  "displayName": "Python Color Helper",
+  "description": "Provides color previews and pickers for RGB and HEX strings.",
   "version": "0.0.1",
   "publisher": "your-name",
   "engines": {
-    "vscode": "^1.116.0"
+    "vscode": "^1.90.0"
   },
   "categories": [
-    "Other"
+    "Programming Languages"
   ],
   "activationEvents": [
     "*"
@@ -21,8 +22,8 @@
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
-    "@types/node": "^25.6.0",
-    "@types/vscode": "^1.116.0",
+    "@types/node": "^20.x",
+    "@types/vscode": "^1.90.0",
     "typescript": "^5.9.3"
   }
 }
