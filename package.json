@@ -14,6 +14,24 @@
     "*"
   ],
   "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "python-color-helper.insertColor",
+        "title": "Insert Color",
+        "icon": "$(symbol-color)"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "python-color-helper.insertColor",
+          "group": "navigation",
+          "when": "editorTextFocus"
+        }
+      ]
+    }
+  },
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
