@@ -2,29 +2,25 @@ import * as vscode from 'vscode';
 
 export function activate(context: vscode.ExtensionContext) {
 
-    console.log("🔥 Color Extension Activated");
+    console.log(" Color Extension Activated");
 
     const provider: vscode.DocumentColorProvider = {
 
         provideDocumentColors(document) {
 
-            console.log("📄 Scanning document for colors...");
+            console.log(" Scanning document for colors...");
 
             const colors: vscode.ColorInformation[] = [];
             const text = document.getText();
 
-            // 🔴 RGB/RGBA Tuples or Lists: (255, 100, 50) or [255, 100, 50] or (255, 100, 50, 255)
             const tupleRegex = /([\[\(])\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})(?:\s*,\s*(\d{1,3}|\d*\.\d+))?\s*([\]\)])/g;
 
-            // 🟢 CSS RGB/RGBA: rgb(255, 100, 50) or rgba(255, 100, 50, 0.5)
             const cssRgbRegex = /rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})(?:\s*,\s*(\d*\.\d+|\d+))?\s*\)/g;
 
-            // 🟣 HEX: #ff6633, #fff, #ff6633ff, #ffff, 0xff6633
             const hexRegex = /(?:#|0x)([0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{4}|[0-9a-fA-F]{3})\b/g;
 
             let match;
 
-            // ---- Tuple / List parsing ----
             while ((match = tupleRegex.exec(text))) {
                 const openBracket = match[1];
                 const closeBracket = match[6];
@@ -58,7 +54,6 @@ export function activate(context: vscode.ExtensionContext) {
                 );
             }
 
-            // ---- CSS RGB/RGBA parsing ----
             while ((match = cssRgbRegex.exec(text))) {
                 const r = Math.min(255, Number(match[1])) / 255;
                 const g = Math.min(255, Number(match[2])) / 255;
@@ -85,7 +80,6 @@ export function activate(context: vscode.ExtensionContext) {
                 );
             }
 
-            // ---- HEX parsing ----
             while ((match = hexRegex.exec(text))) {
                 let hex = match[1];
 
@@ -109,13 +103,13 @@ export function activate(context: vscode.ExtensionContext) {
                 );
             }
 
-            console.log(`✅ Total colors detected: ${colors.length}`);
+            console.log(` Total colors detected: ${colors.length}`);
             return colors;
         },
 
         provideColorPresentations(color: vscode.Color, context: { document: vscode.TextDocument, range: vscode.Range }) {
 
-            console.log("🎨 Providing color presentations...");
+            console.log(" Providing color presentations...");
 
             const text = context.document.getText(context.range);
             const r = Math.round(color.red * 255);
@@ -203,7 +197,6 @@ export function activate(context: vscode.ExtensionContext) {
                     editBuilder.replace(selection, '#ffffff');
                 });
             });
-            // Give the editor a moment to update and the color provider to recognize the new color
             setTimeout(() => {
                 vscode.commands.executeCommand('editor.action.showHover');
             }, 150);
@@ -212,9 +205,9 @@ export function activate(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(disposable, insertCommand);
 
-    console.log("🚀 Color Provider & Command Registered");
+    console.log(" Color Provider & Command Registered");
 }
 
 export function deactivate() {
-    console.log("❌ Color Extension Deactivated");
+    console.log(" Color Extension Deactivated");
 }
